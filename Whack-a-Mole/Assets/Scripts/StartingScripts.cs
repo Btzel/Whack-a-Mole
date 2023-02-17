@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class StartingScripts : MonoBehaviour
 {
-    public Animator anim;
+    
     public Parent parent;
     public GameObject canvas;
     
@@ -15,12 +15,13 @@ public class StartingScripts : MonoBehaviour
         if(tag == "Start" && parent.rules == false)
         {
             parent.start = true;
-            anim.SetTrigger("Start");
+            parent.anim.SetTrigger("Start");
         }
         if(tag == "Rules" && parent.start == false && parent.rules == false)
         {
             parent.rules = true;
             canvas.SetActive(true);
+            
         }
         
         
