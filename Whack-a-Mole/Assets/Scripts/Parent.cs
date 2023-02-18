@@ -10,13 +10,15 @@ public class Parent : MonoBehaviour
     public GameObject[] gameObjects;
     public GameObject Hammer;
     public bool gameon = false;
-    public bool hammeron = false;
+   
     public int objectNum = -1;
     public float timer = 0;
     float timeSet = 0.5f;
     public float speed;
-    
-   
+    public UIManager manager;
+    public GameObject canvasenab;
+
+
     void Start()
     {
         
@@ -36,17 +38,19 @@ public class Parent : MonoBehaviour
             ObjectNumber();
             
         }
+        
     }
 
     IEnumerator Game()
 
     { 
         yield return new WaitForSeconds(2.5f);
-        hammeron = true;
-        
+        canvasenab.SetActive(true);
         
         yield return new WaitForSeconds(1f);
         gameon = true;
+        manager.timerStarted = true;
+        
         yield return new WaitForSeconds(0.5f);
         anim.enabled = false;
         

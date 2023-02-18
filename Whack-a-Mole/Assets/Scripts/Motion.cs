@@ -8,23 +8,32 @@ public class Motion : MonoBehaviour
     public bool hit = false;
     public Parent parent;
     public Texture2D cursor_normal;
+    public UIManager manager;
+    public ParticleSystem hitEffect;
+    public ParticleSystem missEffect;
+    public AudioSource source;
+
+
 
     private void Start()
     {
-        Cursor.SetCursor(cursor_normal, new Vector2(40,40), CursorMode.ForceSoftware);
+       
+
+        
     }
     void Update()
     {
 
-        if (this.tag == parent.objectNum.ToString() && transform.position.y <= -1.922f && !hit)
+        if (this.tag == parent.objectNum.ToString() && transform.position.y <= -1.922f && !hit && manager.currentTime != 0)
         {
+            
             transform.Translate(Vector3.up * Time.deltaTime * parent.speed);
         }
-        else if(this.tag == parent.objectNum.ToString() && !hit)
+        else if(this.tag == parent.objectNum.ToString() && !hit && manager.currentTime != 0)
         {
             transform.position = new Vector3(transform.position.x, -1.922f,transform.position.z);
         }
-        else if(transform.position.y >= -2.88)
+        else if(transform.position.y >= -2.88 )
         {
             
             transform.Translate(Vector3.down * Time.deltaTime * parent.speed);
@@ -34,21 +43,41 @@ public class Motion : MonoBehaviour
             
             transform.position = new Vector3(transform.position.x, -2.88f, transform.position.z);
             hit = false;
-            
         }
-        
+       
 
     }
 
     private void OnMouseDown()
     {
         
-        if(this.tag == parent.objectNum.ToString())
+        if(this.tag == parent.objectNum.ToString() )
         {
-           
-            hit = true;
-            parent.timer = 0;
-            parent.ObjectNumber();
+            
+            if (parent.gameon && manager.currentTime != 0)
+            {
+                source.Play();
+                hit = true;
+                manager.score += 2;
+                hitEffect.Play();
+                parent.timer = 0;
+                parent.ObjectNumber();
+            }
+            
+        }
+        else
+        {
+            if (parent.gameon && manager.currentTime != 0)
+            {
+                
+                missEffect.Play();
+                if(manager.score != 0)
+                {
+
+                manager.score -= 1;
+                }
+            }
+            
         }
     }
 
